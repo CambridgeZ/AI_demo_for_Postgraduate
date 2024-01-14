@@ -4,60 +4,51 @@
     <meta charset="UTF-8">
     <title>AI Studio</title>
 
-    <!-- 引入 Vue -->
-    <script src="https://unpkg.com/vue/dist/vue.js"></script>
-    <!-- Import style -->
-    <link rel="stylesheet" href="//unpkg.com/element-plus/dist/index.css" />
     <!-- Import Vue 3 -->
-    <script src="//unpkg.com/vue@3"></script>
+    <script src="https://unpkg.com/vue@3"></script>
+    <!-- Import style -->
+    <link rel="stylesheet" href="https://unpkg.com/element-plus/dist/index.css">
     <!-- Import component library -->
-    <script src="//unpkg.com/element-plus"></script>
+    <script src="https://unpkg.com/element-plus"></script>
 </head>
 <body>
 
 <h1>Hello AI Studio!</h1>
 <div id="app">
     <el-upload
-            v-model:file-list="fileList"
-            class="upload-demo"
-            action="127.0.0.1:8080/PicToWord"
-            multiple
-            :limit="3"
-            :on-exceed="handleSuccess"
-    >
-        <el-button type="primary">Click to upload</el-button>
-    </el-upload>
+    v-model:file-list="fileList"
+    class="upload-demo"
+    action="http://127.0.0.1:8080/PicToWord"
+    multiple
+    :on-preview="handlePreview"
+    :on-remove="handleRemove"
+    :before-remove="beforeRemove"
+    :limit="3"
+    :on-exceed="handleExceed"
+  >
+    <el-button type="primary">Click to upload</el-button>
+    <template #tip>
+      <div class="el-upload__tip">
+        jpg/png files with a size less than 500KB.
+      </div>
+    </template>
+  </el-upload>
 </div>
-
-</body>
 
 <script type="module">
 
-    import { createApp } from 'vue'
+    import { createApp, ref, MessageBox } from 'vue'
+    import { ref } from 'vue'
+    import { ElUpload, ElButton } from 'element-plus'
+    import { UploadProps, UploadUserFile } from 'element-plus'
 
     const app = createApp({
-        data() {
-            return {
-                fileList: [{name: 'food.jpeg', url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'}, {name: 'food2.jpeg', url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'}]
-            };
-        },
-        methods: {
-            handleRemove(file, fileList) {
-                console.log(file, fileList);
-            },
-            handlePreview(file) {
-                console.log(file);
-            },
-            handleExceed(files, fileList) {
-                this.$message.warning(`当前限制选择 3 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`);
-            },
-            beforeRemove(file, fileList) {
-                return this.$confirm(`确定移除 ${ file.name }？`);
-            }
+        setup() {
+            
         }
-    })
-    app.mount("#app")
+    });
+
+    app.mount("#app");
 </script>
-
-
+</body>
 </html>
